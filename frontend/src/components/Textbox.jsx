@@ -3,7 +3,8 @@ import React from 'react'
 
 const Textbox = ({
   label,
-  icon
+  icon,
+  type
 }) => {
   return (
     <div className="my-8 ">
@@ -16,7 +17,7 @@ const Textbox = ({
 
 
       <input
-        type="text"
+        type={type}
         placeholder={label}
         className="pl-8 pr-2 py-1 border-b-2 w-full outline-none"
       />
