@@ -13,7 +13,7 @@ const Navbar = () => {
         </div>
         <div className="flex gap-[2px]">
           <Link><button className="px-[20px] py-[5px]    rounded-full hover:bg-sky-400 ">About</button></Link>
-          <Link to="login" > <button className="px-[20px] py-[5px] bg-gray-950  mx-4 rounded-full hover:bg-sky-400 text-white">Log In</button></Link>
+          <Link to="/login" > <button className="px-[20px] py-[5px] bg-gray-950  mx-4 rounded-full hover:bg-sky-400 text-white">Log In</button></Link>
         </div>
     </div>
   )

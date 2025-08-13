@@ -1,10 +1,13 @@
-import React from 'react'
-
+import React from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const Textbox = ({
   label,
   icon,
-  type
+  type,
+  value,
+  onChange
 }) => {
   return (
     <div className="my-8 ">
@@ -19,6 +22,8 @@ const Textbox = ({
       <input
         type={type}
         placeholder={label}
+        value={value}
+        onChange={onChange}
         className="pl-8 pr-2 py-1 border-b-2 w-full outline-none"
       />
     </div>
