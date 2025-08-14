@@ -1,6 +1,8 @@
 const express = require('express')
+require('dotenv').config()
 const app = express()
 app.use(express.json())
+const Document = require('./models/document')
 
 let documents = [
   {
@@ -22,24 +24,30 @@ app.get('/', (request, response) => {
 })
 
 app.get('/api/documents', (request, response) => {
-  response.json(documents)
+  Document.find({}).then(documents => response.json(documents))
 })
 
 app.get('/api/documents/:id', (request, response) => {
   const id = request.params.id;
-  const document = documents.find(note => (note.id  === id))
-
-  if (document)
-  {
-    response.json(document)
-  }
-  else {
-    response.status(404).end()
-  }
+  
+  Document.findById(request.params.id).then(document => {
+    if (document)
+    {
+      response.json(document)
+    }
+    else 
+    {
+      response.status(404).end()
+    }
+  }).catch(error => {
+    console.log(error)
+    response.status(500).end()
+  })
 })
 
 app.delete('/api/documents/:id', (request, response) => {
   const id = request.params.id;
+  Document.findByIdAndDelete(id).then(() => response.status.end()).catch()
   const documents = documents.filter(note => (note.id  !== id))
   response.status(204).end()
 })
@@ -69,7 +77,7 @@ const generateId = () => {
   return String(maxId + 1)
 }
 
-const PORT = 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
