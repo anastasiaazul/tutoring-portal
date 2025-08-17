@@ -1,9 +1,11 @@
 import React from 'react'
-
+import Pdf from '../components/PDF'
+import Welcome from '../components/Welcome'
 const Dashboard = () => {
   return (
     <div>
-      <h1>Dashboard</h1>
+      <Welcome name="Cassandra"/>
+      <Pdf/>
     </div>
   )
 }

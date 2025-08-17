@@ -8,7 +8,8 @@ mongoose.connect(url).then(result => {
 })
 
 const pdfSchema = new mongoose.Schema({
-    fileName: String,
+    uniqueIdentifier: String,
+    fileName: String
 })
 
 pdfSchema.set('toJSON', {
