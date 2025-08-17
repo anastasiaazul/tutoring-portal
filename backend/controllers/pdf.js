@@ -35,7 +35,7 @@ pdfRouter.get('/pdfs', async (request, response) => {
     {
         const params = {
             Bucket: bucketName,
-            Key: pdf.fileName
+            Key: pdf.uniqueIdentifier
         }
         const command = new GetObjectCommand(params);
         const url = await (getSignedUrl(s3, command, {expiresIn: 3600}))
@@ -46,10 +46,10 @@ pdfRouter.get('/pdfs', async (request, response) => {
 
 //UPLOAD
 pdfRouter.post('/upload', upload.single('file'), async (request, response) => {
-    const imageName = randomImageName()
+    const uniqueIdentifier = randomImageName()
     params = {
         Bucket: bucketName,
-        Key: imageName,
+        Key: uniqueIdentifier,
         Body: request.file.buffer,
         ContentType: request.file.mimetype
     }
@@ -57,7 +57,8 @@ pdfRouter.post('/upload', upload.single('file'), async (request, response) => {
     await s3.send(command)
 
     const pdf = new PDF({
-        fileName: imageName
+        fileName: request.file.originalname,
+        uniqueIdentifier: uniqueIdentifier
     })
     pdf.save()
 
