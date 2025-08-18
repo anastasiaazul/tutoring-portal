@@ -9,7 +9,15 @@ mongoose.connect(url).then(result => {
 
 const pdfSchema = new mongoose.Schema({
     uniqueIdentifier: String,
-    fileName: String
+    fileName: String,
+    assignedTo : [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }],
+    uploadedBy : {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    }
 })
 
 pdfSchema.set('toJSON', {
