@@ -1,10 +1,15 @@
 import React from 'react'
 import Pdf from '../components/PDF'
 import Welcome from '../components/Welcome'
+
+
 const Dashboard = () => {
+
+  const stored = JSON.parse(window.localStorage.getItem('loggedUser'))
+
   return (
     <div>
-      <Welcome name="Cassandra"/>
+      <Welcome name={stored.username} />
       <Pdf/>
     </div>
   )

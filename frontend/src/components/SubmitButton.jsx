@@ -2,13 +2,18 @@ import React from 'react'
 
 const SubmitButton = (
   {
-    onClick
+    onClick,
+    className = ""
   }
 ) => {
   return (
-    <div>
-      <button className="bg-gray-950 text-white w-[35vw] h-12 hover:bg-sky-600 rounded-sm my-8" onClick={onClick}>Submit</button>
-    </div>
+    <button
+      type="submit"
+      className={`bg-sky-900 text-white w-full h-12 rounded hover:bg-sky-700 transition my-4 font-semibold ${className}`}
+      onClick={onClick}
+    >
+      Submit
+    </button>
   )
 }
 
