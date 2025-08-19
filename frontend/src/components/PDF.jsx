@@ -10,7 +10,7 @@ const Pdf = () => {
         const fetchData = async () =>
         {
             try{
-                const pdfs = await axios.get('http://localhost:3001/api/pdf/pdfs');
+                const pdfs = await axios.get('http://localhost:3001/api/pdf/');
                 console.log(pdfs.data)
                 setPdfs(pdfs.data);
             }
@@ -30,7 +30,7 @@ const Pdf = () => {
                     {
                         const sanitized = pdf.fileName.replace(".pdf", "")
                         return (
-                        <li key={pdf._id} className='p-2 m-1 border-2 border-1 border-sky-600'> <PDFLink link={pdf.imageUrl} text={sanitized}/></li>
+                        <li key={pdf._id} className='p-2 m-1 border-2 border-1 border-sky-900'> <PDFLink link={pdf.imageUrl} text={sanitized}/></li>
                         )
                     }
                     
