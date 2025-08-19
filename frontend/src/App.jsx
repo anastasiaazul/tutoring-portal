@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Home from './pages/Home'
+import TutorUpload from './pages/TutorUpload'
 // App.jsx (or a top-level layout component)
 import { useEffect, useState } from 'react'
 import pdfService from './services/pdfs'
@@ -28,6 +29,7 @@ const App = () => {
         <Route path='/' element={<Home/>}/>
         <Route path='/login' element={<Login/>}/>
         <Route path='/dashboard' element={<Dashboard/>}/>
+        <Route path='/tutor-upload' element={<TutorUpload/>}/>
       </Routes>
     </div>
   )

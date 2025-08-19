@@ -3,15 +3,20 @@ import { Link } from 'react-router-dom'
 import Logo from './Logo'
 
 const Navbar = () => {
+  // Check if user is logged in by looking for a token or user in localStorage
+  const isLoggedIn = !!localStorage.getItem('token');
+
   return (
     <nav className="bg-sky-900 h-[10vh] flex items-center border-b-2 border-b-black justify-between px-8 overflow-visible">
       <Logo />
       <div className="flex items-center">
-        <Link to="/login">
-          <button className="px-4 py-1 bg-white text-sky-900 font-semibold rounded shadow hover:bg-sky-100 transition text-base">
-            Log In
-          </button>
-        </Link>
+        {!isLoggedIn && (
+          <Link to="/login">
+            <button className="px-4 py-1 bg-white text-sky-900 font-semibold rounded shadow hover:bg-sky-100 transition text-base">
+              Log In
+            </button>
+          </Link>
+        )}
       </div>
     </nav>
   )
