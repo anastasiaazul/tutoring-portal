@@ -45,17 +45,17 @@ exports.getMyPdfs = async(request, response) => {
 
     if (!user || user.role !== "student")
     {
-        return response.status(403).json(error, "Only students can access PDFS")
+        return response.status(403).json({error: "Only students can access PDFS"})
     }
         // PDFs where this student is assigned
-        const pdfs = await PDF.find({ assignedTo: user._id }).lean();
+    const pdfs = await PDF.find({ assignedTo: user._id }).lean();
 
-        for (const pdf of pdfs) {
-            const params = { Bucket: bucketName, Key: pdf.uniqueIdentifier };
-            const command = new GetObjectCommand(params);
-            pdf.signedUrl = await getSignedUrl(s3, command, { expiresIn: 3600 }); // 1 hour
-        }
-        response.json(pdfs)
+    for (const pdf of pdfs) {
+        const params = { Bucket: bucketName, Key: pdf.uniqueIdentifier };
+        const command = new GetObjectCommand(params);
+        pdf.signedUrl = await getSignedUrl(s3, command, { expiresIn: 3600 }); // 1 hour
+    }
+    response.json(pdfs)
     
 }
 
