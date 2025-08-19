@@ -59,6 +59,9 @@ A full-stack web application for organizing, managing, and sharing PDF learning 
 - Tutors can upload PDFs and assign them to students.
 - Students can view and download assigned PDFs from their dashboard.
 
+<img width="947" height="409" alt="image" src="https://github.com/user-attachments/assets/5eef29b2-0e37-4ac1-bbb6-6d2d01a832cf" />
+
+
 ## Folder Structure
 
 ```
