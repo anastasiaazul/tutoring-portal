@@ -1,11 +1,15 @@
 import React from 'react'
 
-const Welcome = ({name}) => {
+const Welcome = ({ name }) => {
   return (
-    <div>
-      <h1 className="text-2xl font-bold text-center pt-4 pb-6">Welcome back, {name}! View your pdfs below.</h1>
+    <div className="mb-8">
+      <h1 className="text-3xl font-bold text-sky-900 text-center pt-4 pb-2">
+        Welcome back, {name}!
+      </h1>
+      <p className="text-lg text-gray-700 text-center">
+        View your assigned PDFs below.
+      </p>
     </div>
   )
 }
-
 export default Welcome

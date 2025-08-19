@@ -33,8 +33,12 @@ const Login = () => {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-sky-100 to-blue-200">
-      <form onSubmit={handleLogin} className="bg-white rounded-xl shadow-lg p-8 max-w-md w-full">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-sky-100 to-blue-200 px-2">
+      <form 
+        onSubmit={handleLogin} 
+        className="bg-white rounded-xl shadow-lg p-6 sm:p-8 w-full max-w-md mx-auto"
+        style={{ minWidth: 0 }}
+      >
         <h1 className="text-center text-3xl font-bold text-sky-900 mb-8">Login</h1>
         {error && (
           <div className="mb-4 text-red-600 text-center font-semibold">
