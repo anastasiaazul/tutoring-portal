@@ -1,70 +1,109 @@
 import React, { useState } from 'react';
+import pdfService from '../services/pdfs';
 
 const TutorUpload = () => {
   const [file, setFile] = useState(null);
+  const [uploadedFile, setUploadedFile] = useState(null);
   const [student, setStudent] = useState('');
   const [message, setMessage] = useState('');
+  const [uploadMessage, setUploadMessage] = useState('');
+  const students = ['student1', 'student2', 'student3'];
 
-  const students = ['student1'];
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
+    setUploadMessage('');
+    setUploadedFile(null);
   };
+
+
+  const handleUpload = async (e) => {
+    e.preventDefault();
+    if (!file) {
+      setUploadMessage('Please select a PDF to upload.');
+      return;
+    }
+    const response = await pdfService.uploadPdf(file);
+    if (response.error) {
+      setUploadMessage('Failed to upload PDF.');
+      return;
+    }
+    setUploadMessage('PDF uploaded successfully!');
+    setUploadedFile(file);
+    setFile(null);
+  };
+
 
   const handleStudentChange = (e) => {
     setStudent(e.target.value);
+    setMessage('');
   };
 
-  const handleSubmit = async (e) => {
+
+  const handleAssign = async (e) => {
     e.preventDefault();
-    if (!file || !student) {
-      setMessage('Please select a PDF and a student.');
+    if (!uploadedFile || !student) {
+      setMessage('Please upload a PDF and select a student.');
       return;
     }
-    setMessage('PDF uploaded and assigned successfully!');
-    setFile(null);
+    const response = await pdfService.assignPdfToStudent(uploadedFile._id, student);
+    if (response.error) {
+        setMessage('Failed to assign PDF to student.');
+        return;
+    }
+    setMessage(`PDF assigned to ${student} successfully!`);
+    setUploadedFile(null);
     setStudent('');
   };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-sky-100 to-blue-200 px-2">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md mx-auto flex flex-col gap-6"
-      >
-        <h2 className="text-2xl font-bold text-sky-900 text-center mb-2">Upload & Assign PDF</h2>
-        <div>
-          <label className="block text-sky-900 font-semibold mb-2">Select PDF</label>
+      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md mx-auto flex flex-col gap-8">
+        {/* Upload Form */}
+        <form onSubmit={handleUpload} className="flex flex-col gap-4">
+          <h2 className="text-2xl font-bold text-sky-900 text-center mb-2">Upload PDF</h2>
           <input
             type="file"
             accept="application/pdf"
             onChange={handleFileChange}
             className="w-full border border-sky-200 rounded px-3 py-2"
           />
-        </div>
-        <div>
-          <label className="block text-sky-900 font-semibold mb-2">Assign to Student</label>
+          <button
+            type="submit"
+            className="bg-sky-900 text-white py-2 px-6 rounded hover:bg-sky-700 transition font-semibold"
+          >
+            Upload
+          </button>
+          {uploadMessage && (
+            <div className="text-center text-sky-900 font-medium mt-2">{uploadMessage}</div>
+          )}
+        </form>
+
+        <form onSubmit={handleAssign} className="flex flex-col gap-4">
+          <h2 className="text-xl font-bold text-sky-900 text-center mb-2">Assign PDF to Student</h2>
           <select
             value={student}
             onChange={handleStudentChange}
             className="w-full border border-sky-200 rounded px-3 py-2"
+            disabled={!uploadedFile}
           >
             <option value="">Select a student</option>
             {students.map((s) => (
               <option key={s} value={s}>{s}</option>
             ))}
           </select>
-        </div>
-        <button
-          type="submit"
-          className="bg-sky-900 text-white py-2 px-6 rounded hover:bg-sky-700 transition font-semibold"
-        >
-          Upload & Assign
-        </button>
-        {message && (
-          <div className="text-center text-sky-900 font-medium mt-2">{message}</div>
-        )}
-      </form>
+          <button
+            type="submit"
+            className={`bg-sky-900 text-white py-2 px-6 rounded hover:bg-sky-700 transition font-semibold ${!uploadedFile ? 'opacity-50 cursor-not-allowed' : ''}`}
+            disabled={!uploadedFile}
+          >
+            Assign
+          </button>
+          {message && (
+            <div className="text-center text-sky-900 font-medium mt-2">{message}</div>
+          )}
+        </form>
+      </div>
     </div>
   );
 };
