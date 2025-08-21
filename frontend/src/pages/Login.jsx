@@ -20,12 +20,18 @@ const Login = () => {
         username: userName, password,
       })
       setUser(user)
+      console.log(user);
       window.localStorage.setItem('loggedUser', JSON.stringify(user))
       localStorage.setItem('token', user.token);  
       pdfService.setToken(user.token)
+      if (user.role === 'tutor') {
+        navigate("/tutor-upload")
+      }
+      else if (user.role === 'student') {
+        navigate("/dashboard")
+      }
       setUsername('')
       setPassword('')
-      navigate("/dashboard")
     } catch (exception) {
       setError('Wrong credentials');
       setTimeout(() => setError(''), 5000)

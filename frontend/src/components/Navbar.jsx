@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import Logo from './Logo'
 
 const Navbar = () => {
-  // Check if user is logged in by looking for a token or user in localStorage
   const isLoggedIn = !!localStorage.getItem('token');
 
   return (
