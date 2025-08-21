@@ -50,7 +50,7 @@ A full-stack web application for organizing, managing, and sharing PDF learning 
    ```
 
 4. **Access the app**
-   - Frontend: [http://localhost:3000](http://localhost:3000)
+   - Frontend: [http://localhost:5173](http://localhost:5173)
    - Backend: [http://localhost:3001](http://localhost:3001)
 
 ## Usage
