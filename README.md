@@ -8,8 +8,8 @@ A full-stack web application for organizing, managing, and sharing PDF learning 
 - Upload, assign, and distribute PDF files to students
 - Student dashboard for accessing assigned resources
 - RESTful API for PDF management
-- Responsive UI built with React
 - Backend powered by Node.js and Express
+- Responsive UI built with React
 
 ## Tech Stack
 
