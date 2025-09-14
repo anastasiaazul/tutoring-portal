@@ -15,6 +15,8 @@ const getMyPdfs = async () => {
   return res.data
 }
 
+
+
 const uploadPdf = async (file) => {
   const formData = new FormData();
   formData.append('file', file);
@@ -37,7 +39,28 @@ const uploadPdf = async (file) => {
   }
 }
 
+const assignPdfToStudent = async (id, studentIds) => {
+  const token = localStorage.getItem('token');
+  const config = {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  };
+
+  try{
+    const url = `http://localhost:3001/api/pdf/${id}/assign`;
+    console.log(url);
+    const response = await axios.patch(url, {studentIds}, config)
+    return response.data;
+  } 
+  catch (error){
+    console.error("Error assigning pdf to student");
+    return {error: "couldnt assign"};
+
+  }
+
+}
 
 
-
-export default { setToken, getMyPdfs, uploadPdf }
+export default { setToken, getMyPdfs, uploadPdf, assignPdfToStudent }

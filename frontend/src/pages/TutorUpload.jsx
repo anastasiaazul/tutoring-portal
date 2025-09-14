@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import pdfService from '../services/pdfs';
+import userService from '../services/users'
 
 const TutorUpload = () => {
   const [file, setFile] = useState(null);
@@ -7,8 +8,16 @@ const TutorUpload = () => {
   const [student, setStudent] = useState('');
   const [message, setMessage] = useState('');
   const [uploadMessage, setUploadMessage] = useState('');
-  const students = ['student1', 'student2', 'student3'];
+  const [students, setStudents] = useState([]);
 
+
+  useEffect(() => {
+      const fetchStudents = async () =>{
+        const response = await userService.getAllStudents();
+        setStudents(response);
+    };
+    fetchStudents();
+    }, []);
 
   const handleFileChange = (e) => {
     setFile(e.target.files[0]);
@@ -29,7 +38,7 @@ const TutorUpload = () => {
       return;
     }
     setUploadMessage('PDF uploaded successfully!');
-    setUploadedFile(file);
+    setUploadedFile(response);
     setFile(null);
   };
 
@@ -46,7 +55,7 @@ const TutorUpload = () => {
       setMessage('Please upload a PDF and select a student.');
       return;
     }
-    const response = await pdfService.assignPdfToStudent(uploadedFile._id, student);
+    const response = await pdfService.assignPdfToStudent(uploadedFile.id, student);
     if (response.error) {
         setMessage('Failed to assign PDF to student.');
         return;
@@ -55,6 +64,8 @@ const TutorUpload = () => {
     setUploadedFile(null);
     setStudent('');
   };
+
+  
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-sky-100 to-blue-200 px-2">
@@ -89,13 +100,13 @@ const TutorUpload = () => {
           >
             <option value="">Select a student</option>
             {students.map((s) => (
-              <option key={s} value={s}>{s}</option>
+              <option key={s.id} value={s.id}>{s.username}{console.log(s.username)}</option>
             ))}
           </select>
           <button
             type="submit"
             className={`bg-sky-900 text-white py-2 px-6 rounded hover:bg-sky-700 transition font-semibold ${!uploadedFile ? 'opacity-50 cursor-not-allowed' : ''}`}
-            disabled={!uploadedFile}
+            disabled={!uploadedFile} onSubmit={handleAssign}
           >
             Assign
           </button>

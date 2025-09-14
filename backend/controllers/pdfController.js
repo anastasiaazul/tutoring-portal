@@ -86,7 +86,7 @@ exports.createPdf = async (request, response) => {
     user.pdfs = user.pdfs.concat(savedPDF._id)
     await user.save()
 
-    response.status(201).json(savedPDF)
+    response.json(savedPDF)
 }
 
 //ASSIGN
