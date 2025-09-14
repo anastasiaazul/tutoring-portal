@@ -8,7 +8,7 @@ const app = express()
 
 app.use(cors({
   origin: "http://localhost:5173",  // allow requests from your React app
-  methods: ["GET", "POST", "PUT", "DELETE"], // adjust as needed
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // adjust as needed
   credentials: true
 }));
 
