@@ -24,3 +24,8 @@ exports.getAllUsers = async(request, response) => {
   const users = await User.find({}).populate('pdfs')
   response.json(users)
 }
+
+exports.getAllStudents =  async(request, response) => {
+  const students = await User.find({role: "student"});
+  response.json(students)
+}
