@@ -62,5 +62,20 @@ const assignPdfToStudent = async (id, studentIds) => {
 
 }
 
+const getAllPdfs = async () => {
+  const token = localStorage.getItem('token');
+  try {
+    const res = await axios.get('http://localhost:3001/api/pdf', {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    console.log(res.data);
+    return res.data;
+  } catch (error) {
+    console.error('Error fetching all PDFs:', error);
+    return [];
+  }
 
-export default { setToken, getMyPdfs, uploadPdf, assignPdfToStudent }
+}
+
+
+export default { setToken, getAllPdfs, getMyPdfs, uploadPdf, assignPdfToStudent }
