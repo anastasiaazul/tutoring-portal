@@ -25,18 +25,22 @@ const s3 = new S3Client({
 //READ
 exports.getPdfs = async (request, response) => {
     const pdfs = await PDF.find().populate('assignedTo').lean()
-    
-    for (let pdf of pdfs)
-    {
-        const params = {
-            Bucket: bucketName,
-            Key: pdf.uniqueIdentifier
+    try{
+        for (let pdf of pdfs)
+        {
+            const params = {
+                Bucket: bucketName,
+                Key: pdf.uniqueIdentifier
+            }
+            const command = new GetObjectCommand(params);
+            const url = await (getSignedUrl(s3, command, {expiresIn: 3600}))
+            pdf.signedUrl = url
         }
-        const command = new GetObjectCommand(params);
-        const url = await (getSignedUrl(s3, command, {expiresIn: 3600}))
-        pdf.imageUrl = url
+        response.json(pdfs)
     }
-    response.send(pdfs)
+    catch (err){
+         response.status(500).json({ error: 'Failed to fetch PDFs' });
+    }
 };
 
 //READ MY PDFS
