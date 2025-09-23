@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import pdfService from '../services/pdfs';
 import userService from '../services/users'
+import { TrashIcon} from '@heroicons/react/24/solid';
 
 const TutorUpload = () => {
   const [file, setFile] = useState(null);
@@ -9,6 +10,17 @@ const TutorUpload = () => {
   const [message, setMessage] = useState('');
   const [uploadMessage, setUploadMessage] = useState('');
   const [students, setStudents] = useState([]);
+  const [pdfs, setPdfs] = useState([]);
+
+  useEffect(() => {
+  const fetchData = async () => {
+    const studentsRes = await userService.getAllStudents();
+    setStudents(studentsRes);
+    const pdfsRes = await pdfService.getAllPdfs(); // You need a service for this
+    setPdfs(pdfsRes);
+  };
+  fetchData();
+}, []);
 
 
   useEffect(() => {
@@ -68,9 +80,8 @@ const TutorUpload = () => {
   
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-sky-100 to-blue-200 px-2">
-      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md mx-auto flex flex-col gap-8">
-        {/* Upload Form */}
+    <div className="flex items-start min-h-screen bg-gradient-to-br from-sky-100 to-blue-200 px-2 py-8">
+      <div className="bg-white rounded-xl shadow-lg p-8  mx-8 w-1/2 flex flex-col gap-8">
         <form onSubmit={handleUpload} className="flex flex-col gap-4">
           <h2 className="text-2xl font-bold text-sky-900 text-center mb-2">Upload PDF</h2>
           <input
@@ -115,7 +126,33 @@ const TutorUpload = () => {
           )}
         </form>
       </div>
-    </div>
+
+      <div className="bg-white rounded-xl w-1/2 shadow-lg p-8  flex flex-col gap-4 mx-8">
+        <h2 className="text-2xl font-bold text-sky-900 text-center mb-4">Manage Students</h2>
+        <ul>
+          {students.map((s) => (
+          <li key={s.id} className="py-2 border-b border-sky-100 text-sky-900 ">
+            <div className="font-semibold">{s.username}</div>
+            <ul className="ml-4 mt-1 text-sky-700 text-sm list-disc list-none">
+              {pdfs.filter(pdf =>
+                Array.isArray(pdf.assignedTo) &&
+                pdf.assignedTo.some(user => user._id === s.id)
+              ).length > 0 ? (
+                pdfs.filter(pdf =>
+                  Array.isArray(pdf.assignedTo) &&
+                  pdf.assignedTo.some(user => user._id === s.id)
+                ).map(pdf => (
+                  <li key={pdf._id}>{pdf.fileName } </li>
+                ))
+              ) : (
+                <li className="text-gray-400 italic">No PDFs assigned</li>
+              )}
+          </ul>
+          </li>
+        ))}
+        </ul>
+      </div>
+      </div>
   );
 };
 
